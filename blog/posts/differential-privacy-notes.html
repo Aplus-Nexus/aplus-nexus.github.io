@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Notes on Differential Privacy - 万家骏">
+    <meta name="author" content="万家骏">
+    <title>Notes on Differential Privacy - 万家骏</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="top-nav">
+        <div class="top-nav-container">
+            <a href="../../index.html" class="homepage-link">Homepage</a>
+            
+            <!-- Main Navigation Menu -->
+            <nav class="main-nav" id="main-nav">
+                <a href="../../index.html">Home</a>
+                <a href="../../index.html#about">About</a>
+                <a href="../../index.html#publications">Publications</a>
+                <a href="../index.html" class="active">Blog</a>
+                <a href="../../index.html#honors">Awards</a>
+            </nav>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Blog Post Content -->
+    <article class="blog-post">
+        
+        <!-- Post Header -->
+        <header class="blog-post-header">
+            <h1 class="blog-post-title">Notes on Differential Privacy</h1>
+            <div class="blog-post-meta">
+                <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    2024-02-15
+                </span>
+                <span>
+                    <i class="fa-regular fa-folder"></i>
+                    Research
+                </span>
+            </div>
+        </header>
+        
+        <!-- Post Content -->
+        <div class="blog-post-content">
+            <p>These are some notes I've compiled while studying differential privacy and its applications in machine learning. Differential privacy is a formal framework for quantifying privacy guarantees in statistical databases and machine learning.</p>
+            
+            <h2>What is Differential Privacy?</h2>
+            <p>Differential privacy provides a mathematical definition of privacy that can be used to analyze and verify privacy guarantees in algorithms that operate on sensitive data.</p>
+            
+            <h3>Formal Definition</h3>
+            <p>A randomized mechanism <em>M</em> satisfies <em>ε-differential privacy</em> if for all adjacent datasets <em>D</em> and <em>D'</em> (differing in exactly one element) and for all subsets <em>S</em> of the output space:</p>
+            <pre><code>Pr[M(D) ∈ S] ≤ e^ε × Pr[M(D') ∈ S]</code></pre>
+            <p>where <em>ε</em> (epsilon) is the privacy budget - a smaller ε means stronger privacy.</p>
+            
+            <h2>Key Mechanisms</h2>
+            
+            <h3>Laplace Mechanism</h3>
+            <p>For numerical queries, we can add Laplace noise calibrated to the sensitivity of the query:</p>
+            <pre><code>noise ~ Lap(0, Δf/ε)</code></pre>
+            <p>where Δf is the sensitivity (maximum change in output between adjacent datasets).</p>
+            
+            <h3>Exponential Mechanism</h3>
+            <p>For selecting the best output from a discrete set:</p>
+            <pre><code>Pr[output = x] ∝ exp(ε × q(D, x) / 2)</code></pre>
+            <p>where q is a quality score function.</p>
+            
+            <h2>Applications in Machine Learning</h2>
+            <p>Differential privacy has important applications in machine learning:</p>
+            <ul>
+                <li><strong>Private Training Data</strong> - Training deep learning models while protecting training data privacy</li>
+                <li><strong>Federated Learning</strong> - Combining differential privacy with federated learning frameworks</li>
+                <li><strong>Private Inference</strong> - Ensuring predictions don't leak information about training data</li>
+            </ul>
+            
+            <h2>Trade-offs</h2>
+            <p>There's typically a trade-off between privacy and utility:</p>
+            <ul>
+                <li>Lower ε → Stronger privacy → More noise → Lower utility</li>
+                <li>Larger datasets can achieve better privacy-utility trade-offs</li>
+            </ul>
+            
+            <blockquote>
+                <p>"Privacy is not an option, it's an approach." — This is especially true in the age of AI.</p>
+            </blockquote>
+            
+            <h2>References</h2>
+            <p>These notes are based on:</p>
+            <ul>
+                <li>C. Dwork and A. Roth, "The Algorithmic Foundations of Differential Privacy"</li>
+                <li>M. Abadi et al., "Deep Learning with Differential Privacy" (2016)</li>
+            </ul>
+            
+            <p style="margin-top: 2rem;">
+                <em>— 万家骏</em><br>
+                <em>February 15, 2024</em>
+            </p>
+        </div>
+        
+        <!-- Back to Blog -->
+        <a href="../index.html" class="back-to-blog">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Blog
+        </a>
+        
+    </article>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid #eaecef; color: #888; font-size: 0.9rem;">
+        <p>&copy; 2024-2025 万家骏. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog of 万家骏 - Personal notes on machine learning, NLP, and research">
+    <meta name="author" content="万家骏">
+    <title>Blog - 万家骏</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="top-nav">
+        <div class="top-nav-container">
+            <a href="../index.html" class="homepage-link">Homepage</a>
+            
+            <!-- Main Navigation Menu -->
+            <nav class="main-nav" id="main-nav">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#publications">Publications</a>
+                <a href="index.html" class="active">Blog</a>
+                <a href="../index.html#honors">Awards</a>
+            </nav>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Blog Header -->
+    <div class="blog-header">
+        <h1>Blog</h1>
+        <p>记录学习笔记、研究思考和生活感悟</p>
+    </div>
+
+    <!-- Blog Categories -->
+    <div class="blog-categories" id="blog-categories">
+        <button class="blog-category-tag active" data-category="All">All</button>
+        <button class="blog-category-tag" data-category="General">General</button>
+        <button class="blog-category-tag" data-category="Research">Research</button>
+        <button class="blog-category-tag" data-category="Paper Reading">Paper Reading</button>
+        <button class="blog-category-tag" data-category="Thoughts">Thoughts</button>
+    </div>
+
+    <!-- Blog Content Wrapper -->
+    <div class="wrapper" style="flex-direction: column; max-width: 900px;">
+        
+        <!-- Blog List -->
+        <div class="blog-list" id="blog-list">
+            
+            <!-- Blog Post 1 -->
+            <a href="posts/welcome.html" class="blog-card">
+                <h3 class="blog-card-title">Welcome to My Blog</h3>
+                <p class="blog-card-excerpt">Welcome to my personal blog where I share my thoughts on machine learning, AI safety, and research.</p>
+                <div class="blog-card-meta">
+                    <span class="blog-card-date">
+                        <i class="fa-regular fa-calendar"></i>
+                        2024-01-01
+                    </span>
+                    <span class="blog-card-category">General</span>
+                </div>
+            </a>
+            
+            <!-- Blog Post 2 -->
+            <a href="posts/differential-privacy-notes.html" class="blog-card">
+                <h3 class="blog-card-title">Notes on Differential Privacy</h3>
+                <p class="blog-card-excerpt">Some notes on differential privacy theory and its applications in machine learning.</p>
+                <div class="blog-card-meta">
+                    <span class="blog-card-date">
+                        <i class="fa-regular fa-calendar"></i>
+                        2024-02-15
+                    </span>
+                    <span class="blog-card-category">Research</span>
+                </div>
+            </a>
+            
+            <!-- Blog Post 3 -->
+            <a href="posts/attention-mechanisms.html" class="blog-card">
+                <h3 class="blog-card-title">Understanding Attention Mechanisms</h3>
+                <p class="blog-card-excerpt">A deep dive into attention mechanisms in transformers and their theoretical properties.</p>
+                <div class="blog-card-meta">
+                    <span class="blog-card-date">
+                        <i class="fa-regular fa-calendar"></i>
+                        2024-03-10
+                    </span>
+                    <span class="blog-card-category">Paper Reading</span>
+                </div>
+            </a>
+            
+        </div>
+        
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid #eaecef; color: #888; font-size: 0.9rem;">
+        <p>&copy; 2024-2025 万家骏. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://github.com/JulianRyder01" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
+            &nbsp;|&nbsp;
+            <a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+</body>
+</html>
