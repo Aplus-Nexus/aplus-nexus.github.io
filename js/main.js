@@ -1,222 +1,289 @@
 /**
- * Academic Personal Website - Main JavaScript
- * Production-ready, enhanced interactivity
+ * Jiajun Wan — Academic Homepage Scripts
+ * Theme switching · reading progress · scroll animations
+ * mobile nav · BibTeX modal · back-to-top · blog filtering
  */
-
-(function() {
+(function () {
     'use strict';
 
-    // ========================================
-    // Configuration
-    // ========================================
+    var docEl = document.documentElement;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const CONFIG = {
-        animations: {
-            enabled: true,
-            duration: 500,
-            staggerDelay: 100
-        },
-        mobile: {
-            breakpoint: 768
-        }
-    };
+    /* =====================================================
+     * Theme (light / dark), applied before paint via inline
+     * snippet in <head>; this part only wires the toggle.
+     * ===================================================== */
+    function initThemeToggle() {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
 
-    // ========================================
-    // DOM Ready
-    // ========================================
-
-    document.addEventListener('DOMContentLoaded', function() {
-        initNavigation();
-        initAnimations();
-        initTooltips();
-        initSmoothScroll();
-    });
-
-    // ========================================
-    // Navigation
-    // ========================================
-
-    function initNavigation() {
-        const menuToggle = document.querySelector('.mobile-menu-toggle');
-        const mainNav = document.querySelector('.main-nav');
-
-        if (!menuToggle || !mainNav) return;
-
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
-            
-            const icon = menuToggle.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
-            }
+        btn.addEventListener('click', function () {
+            var next = docEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            docEl.setAttribute('data-theme', next);
+            try { localStorage.setItem('site-theme', next); } catch (e) { /* private mode */ }
         });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!menuToggle.contains(e.target) && !mainNav.contains(e.target)) {
-                mainNav.classList.remove('active');
-                const icon = menuToggle.querySelector('i');
-                if (icon && icon.classList.contains('fa-times')) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            }
-        });
-
-        // Set active nav item based on current page
-        setActiveNavItem();
     }
 
-    function setActiveNavItem() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('.main-nav a');
-        
-        navLinks.forEach(function(link) {
-            const href = link.getAttribute('href');
-            if (href && currentPath.includes(href.replace('.html', ''))) {
+    /* =====================================================
+     * Reading progress bar
+     * ===================================================== */
+    function initProgressBar() {
+        var bar = document.querySelector('.progress-bar');
+        if (!bar) return;
+
+        var ticking = false;
+        function update() {
+            var scrollTop = window.pageYOffset || docEl.scrollTop || 0;
+            var height = docEl.scrollHeight - docEl.clientHeight;
+            var ratio = height > 0 ? Math.min(scrollTop / height, 1) : 0;
+            bar.style.transform = 'scaleX(' + ratio + ')';
+            ticking = false;
+        }
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                ticking = true;
+                window.requestAnimationFrame(update);
+            }
+        }, { passive: true });
+        update();
+    }
+
+    /* =====================================================
+     * Mobile navigation
+     * ===================================================== */
+    function initNavigation() {
+        var toggle = document.getElementById('menu-toggle');
+        var nav = document.getElementById('main-nav');
+        if (!toggle || !nav) return;
+
+        function setOpen(open) {
+            nav.classList.toggle('active', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            var icon = toggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !open);
+                icon.classList.toggle('fa-times', open);
+            }
+        }
+
+        toggle.addEventListener('click', function () {
+            setOpen(!nav.classList.contains('active'));
+        });
+
+        // Close when a nav link is clicked or clicking outside
+        nav.addEventListener('click', function (e) {
+            if (e.target.closest('a')) setOpen(false);
+        });
+        document.addEventListener('click', function (e) {
+            if (nav.classList.contains('active') &&
+                !toggle.contains(e.target) && !nav.contains(e.target)) {
+                setOpen(false);
+            }
+        });
+
+        // Active item by path
+        var path = window.location.pathname;
+        nav.querySelectorAll('a').forEach(function (link) {
+            var href = link.getAttribute('href') || '';
+            if (href.indexOf('#') === -1 && href.length > 0 && path.indexOf(href.replace(/\.html$/, '')) !== -1) {
                 link.classList.add('active');
             }
         });
     }
 
-    // ========================================
-    // Animations
-    // ========================================
-
+    /* =====================================================
+     * Scroll-in reveal animations
+     * ===================================================== */
     function initAnimations() {
-        if (!CONFIG.animations.enabled) return;
+        var targets = document.querySelectorAll('[data-animate]');
+        if (!targets.length) return;
 
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            targets.forEach(function (el) { el.classList.add('is-visible'); });
+            return;
+        }
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
+        docEl.classList.add('js-anim');
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in');
+                    entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.08 });
 
-        // Observe sections
-        document.querySelectorAll('section').forEach(function(section) {
-            section.style.opacity = '0';
-            observer.observe(section);
-        });
-
-        // Observe publication items
-        document.querySelectorAll('.pub-item').forEach(function(item, index) {
-            item.style.opacity = '0';
-            item.style.animationDelay = (index * CONFIG.animations.staggerDelay) + 'ms';
-            observer.observe(item);
-        });
-
-        // Observe blog cards
-        document.querySelectorAll('.blog-card').forEach(function(card, index) {
-            card.style.opacity = '0';
-            card.style.animationDelay = (index * CONFIG.animations.staggerDelay) + 'ms';
-            observer.observe(card);
-        });
-
-        // Observe award items
-        document.querySelectorAll('#honors li').forEach(function(item, index) {
-            item.style.opacity = '0';
-            item.style.animationDelay = (index * CONFIG.animations.staggerDelay) + 'ms';
-            observer.observe(item);
+        targets.forEach(function (el) {
+            el.classList.add('pre-animate');
+            observer.observe(el);
         });
     }
 
-    // ========================================
-    // Tooltips (social links)
-    // ========================================
-
-    function initTooltips() {
-        const socialLinks = document.querySelectorAll('.social-links a');
-        
-        socialLinks.forEach(function(link) {
-            link.addEventListener('mouseenter', function(e) {
-                const text = link.textContent.trim();
-                showTooltip(e, text);
-            });
-            
-            link.addEventListener('mouseleave', function() {
-                hideTooltip();
-            });
-        });
-    }
-
-    function showTooltip(event, text) {
-        // Create tooltip element if it doesn't exist
-        let tooltip = document.querySelector('.custom-tooltip');
-        
-        if (!tooltip) {
-            tooltip = document.createElement('div');
-            tooltip.className = 'custom-tooltip';
-            document.body.appendChild(tooltip);
-        }
-        
-        tooltip.textContent = text;
-        tooltip.style.display = 'block';
-        
-        const rect = event.target.getBoundingClientRect();
-        tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
-        tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
-    }
-
-    function hideTooltip() {
-        const tooltip = document.querySelector('.custom-tooltip');
-        if (tooltip) {
-            tooltip.style.display = 'none';
-        }
-    }
-
-    // ========================================
-    // Smooth Scroll
-    // ========================================
-
+    /* =====================================================
+     * Smooth anchor scrolling (offset by fixed navbar)
+     * ===================================================== */
     function initSmoothScroll() {
-        const links = document.querySelectorAll('a[href^="#"]');
-        
-        links.forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                const targetId = link.getAttribute('href');
-                
-                if (targetId === '#' || targetId === '') return;
-                
-                const target = document.querySelector(targetId);
-                
-                if (target) {
-                    e.preventDefault();
-                    
-                    const navHeight = document.querySelector('.top-nav').offsetHeight;
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest('a[href^="#"]');
+            if (!link) return;
+            var id = link.getAttribute('href');
+            if (!id || id === '#') return;
+            var target = document.querySelector(id);
+            if (!target) return;
+
+            e.preventDefault();
+            var navEl = document.querySelector('.top-nav');
+            var offset = navEl ? navEl.offsetHeight + 16 : 80;
+            var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: top,
+                behavior: reduceMotion ? 'auto' : 'smooth'
             });
+            history.replaceState(null, '', id);
         });
     }
 
-    // ========================================
-    // Blog System
-    // ========================================
+    /* =====================================================
+     * Back to top
+     * ===================================================== */
+    function initBackToTop() {
+        var btn = document.getElementById('back-to-top');
+        if (!btn) return;
 
-    const BlogSystem = {
+        var visible = false;
+        window.addEventListener('scroll', function () {
+            var show = window.pageYOffset > 480;
+            if (show !== visible) {
+                visible = show;
+                btn.classList.toggle('show', show);
+            }
+        }, { passive: true });
+
+        btn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
+    }
+
+    /* =====================================================
+     * BibTeX modal
+     * ===================================================== */
+    function buildBibtex(d) {
+        var lines = [
+            '@inproceedings{' + d.key + ',',
+            '  title     = {' + d.title + '},',
+            '  author    = {' + d.author + '},',
+            '  booktitle = {' + d.venue + '},',
+            '  year      = {' + d.year + '}'
+        ];
+        if (d.url) lines.push('  url       = {' + d.url + '}');
+        lines.push('}');
+        return lines.join('\n');
+    }
+
+    function copyText(text, onDone, onError) {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(onDone, function () { legacyCopy(text, onDone, onError); });
+        } else {
+            legacyCopy(text, onDone, onError);
+        }
+    }
+
+    function legacyCopy(text, onDone, onError) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy') ? onDone() : onError();
+        } catch (err) {
+            onError();
+        } finally {
+            document.body.removeChild(ta);
+        }
+    }
+
+    function initBibtexModal() {
+        var modal = document.getElementById('bibtex-modal');
+        var textarea = document.getElementById('bibtex-textarea');
+        var closeBtn = document.getElementById('modal-close');
+        var copyBtn = document.getElementById('copy-bibtex');
+        var hint = document.getElementById('copy-hint');
+        if (!modal || !textarea || !closeBtn || !copyBtn || !hint) return;
+
+        var lastFocus = null;
+
+        function openModal(data) {
+            lastFocus = document.activeElement;
+            textarea.value = buildBibtex(data);
+            hint.textContent = '';
+            modal.hidden = false;
+            document.body.classList.add('modal-open');
+            requestAnimationFrame(function () {
+                modal.classList.add('is-open');
+                copyBtn.focus();
+            });
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-open');
+            document.body.classList.remove('modal-open');
+            setTimeout(function () {
+                modal.hidden = true;
+                if (lastFocus && lastFocus.focus) lastFocus.focus();
+            }, 220);
+        }
+
+        // Openers (event delegation — works for dynamically added papers)
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.bibtex-btn');
+            if (!btn) return;
+            openModal({
+                key: btn.dataset.bibtexKey || 'paper2026',
+                title: btn.dataset.bibtexTitle || '',
+                author: btn.dataset.bibtexAuthor || '',
+                venue: btn.dataset.bibtexVenue || '',
+                year: btn.dataset.bibtexYear || '',
+                url: btn.dataset.bibtexUrl || ''
+            });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !modal.hidden) closeModal();
+        });
+
+        copyBtn.addEventListener('click', function () {
+            copyText(textarea.value,
+                function () {
+                    hint.classList.remove('err');
+                    hint.textContent = '✓ Copied to clipboard';
+                    setTimeout(function () { hint.textContent = ''; }, 2400);
+                },
+                function () {
+                    hint.classList.add('err');
+                    hint.textContent = 'Copy failed — please select & copy manually';
+                });
+        });
+    }
+
+    /* =====================================================
+     * Blog list (filtering on blog/index.html)
+     * Kept compatible with the previous post registry.
+     * ===================================================== */
+    var BlogSystem = {
         posts: [
             {
                 title: 'Welcome to My Blog',
                 slug: 'welcome',
                 date: '2024-01-01',
                 category: 'General',
-                excerpt: 'Welcome to my personal blog where I share my thoughts on machine learning, AI safety, and research.'
+                excerpt: 'Welcome to my personal blog where I share my thoughts on machine learning, AI security, and research.'
             },
             {
                 title: 'Notes on Differential Privacy',
@@ -233,87 +300,77 @@
                 excerpt: 'A deep dive into attention mechanisms in transformers and their theoretical properties.'
             }
         ],
-        
+
         categories: ['All', 'General', 'Research', 'Paper Reading', 'Thoughts'],
-        
-        init: function() {
+
+        init: function () {
             this.renderPosts();
             this.renderCategories();
         },
-        
-        renderPosts: function(postsToRender) {
-            const container = document.getElementById('blog-list');
+
+        renderPosts: function (postsToRender) {
+            var container = document.getElementById('blog-list');
             if (!container) return;
-            
-            const posts = postsToRender || this.posts;
-            
-            container.innerHTML = posts.map(function(post) {
-                return '\n                    <a href="posts/' + post.slug + '.html" class="blog-card">\n                        <h3 class="blog-card-title">' + post.title + '</h3>\n                        <p class="blog-card-excerpt">' + post.excerpt + '</p>\n                        <div class="blog-card-meta">\n                            <span class="blog-card-date">\n                                <i class="fa-regular fa-calendar"></i>\n                                ' + post.date + '\n                            </span>\n                            <span class="blog-card-category">' + post.category + '</span>\n                        </div>\n                    </a>\n                ';
+
+            var posts = postsToRender || this.posts;
+            container.innerHTML = posts.map(function (post) {
+                return '' +
+                    '<a href="posts/' + post.slug + '.html" class="blog-card">' +
+                    '<h3 class="blog-card-title">' + post.title + '</h3>' +
+                    '<p class="blog-card-excerpt">' + post.excerpt + '</p>' +
+                    '<div class="blog-card-meta">' +
+                    '<span class="blog-card-date"><i class="fa-regular fa-calendar"></i>' + post.date + '</span>' +
+                    '<span class="blog-card-category">' + post.category + '</span>' +
+                    '</div></a>';
             }).join('');
         },
-        
-        renderCategories: function() {
-            const container = document.getElementById('blog-categories');
+
+        renderCategories: function () {
+            var container = document.getElementById('blog-categories');
             if (!container) return;
-            
+
             var self = this;
-            
-            container.innerHTML = this.categories.map(function(category) {
-                return '\n                    <button class="blog-category-tag ' + (category === 'All' ? 'active' : '') + '" data-category="' + category + '">\n                        ' + category + '\n                    </button>\n                ';
+            container.innerHTML = this.categories.map(function (category) {
+                return '<button class="blog-category-tag' + (category === 'All' ? ' active' : '') +
+                    '" data-category="' + category + '">' + category + '</button>';
             }).join('');
-            
-            // Add click handlers
-            container.querySelectorAll('.blog-category-tag').forEach(function(tag) {
-                tag.addEventListener('click', function() {
-                    var category = this.getAttribute('data-category');
-                    
-                    container.querySelectorAll('.blog-category-tag').forEach(function(t) {
+
+            container.querySelectorAll('.blog-category-tag').forEach(function (tag) {
+                tag.addEventListener('click', function () {
+                    container.querySelectorAll('.blog-category-tag').forEach(function (t) {
                         t.classList.remove('active');
                     });
-                    this.classList.add('active');
-                    
-                    if (category === 'All') {
-                        self.renderPosts();
-                    } else {
-                        var filtered = self.posts.filter(function(p) {
-                            return p.category === category;
-                        });
-                        self.renderPosts(filtered);
-                    }
+                    tag.classList.add('active');
+
+                    var category = tag.getAttribute('data-category');
+                    self.renderPosts(category === 'All'
+                        ? null
+                        : self.posts.filter(function (p) { return p.category === category; }));
                 });
-            });
-        },
-        
-        filterByCategory: function(category) {
-            if (category === 'All') {
-                return this.posts;
-            }
-            return this.posts.filter(function(post) {
-                return post.category === category;
-            });
-        },
-        
-        searchPosts: function(query) {
-            var lowerQuery = query.toLowerCase();
-            return this.posts.filter(function(post) {
-                return post.title.toLowerCase().includes(lowerQuery) ||
-                       post.excerpt.toLowerCase().includes(lowerQuery);
             });
         }
     };
 
-    // Initialize blog if on blog page
-    if (document.getElementById('blog-list')) {
-        BlogSystem.init();
+    /* =====================================================
+     * Boot
+     * ===================================================== */
+    function boot() {
+        initThemeToggle();
+        initProgressBar();
+        initNavigation();
+        initAnimations();
+        initSmoothScroll();
+        initBackToTop();
+        initBibtexModal();
+        if (document.getElementById('blog-list')) BlogSystem.init();
     }
 
-    // ========================================
-    // Export
-    // ========================================
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
 
-    window.AcademicSite = {
-        BlogSystem: BlogSystem,
-        CONFIG: CONFIG
-    };
-
+    // Export for debugging / external use
+    window.AcademicSite = { BlogSystem: BlogSystem };
 })();

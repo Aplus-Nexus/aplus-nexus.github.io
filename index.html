@@ -3,208 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Academic personal website of 万家骏 - Computer Science student at Guangdong University of Technology">
-    <meta name="author" content="万家骏">
-    <title>万家骏 (万家骏) - Homepage</title>
-    
+    <meta name="description" content="Jiajun Wan (万家骏) - Undergraduate at Guangdong University of Technology. Research interests: NLP, Multimodal Learning, AI Security. ACM MM 2026 paper.">
+    <meta name="author" content="Jiajun Wan">
+    <meta name="keywords" content="Jiajun Wan, 万家骏, NLP, Deepfake Detection, Adversarial Attack, GDUT">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Jiajun Wan (万家骏)">
+    <meta property="og:description" content="Undergraduate researcher in NLP & AI Security at Guangdong University of Technology.">
+    <meta property="og:url" content="https://julianryder01.github.io/">
+    <meta property="og:image" content="https://julianryder01.github.io/pics/profile_pic.jpg">
+
+    <title>Jiajun Wan (万家骏)</title>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- Theme: apply saved preference before first paint -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('site-theme');
+                if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch (e) { /* ignore */ }
+        })();
+    </script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
-    
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 </head>
 <body>
 
+    <!-- Reading progress bar -->
+    <div class="progress-bar" aria-hidden="true"></div>
+
     <!-- Navigation Bar -->
     <header class="top-nav">
         <div class="top-nav-container">
-            <a href="index.html" class="homepage-link">Homepage</a>
-            
+            <a href="index.html" class="homepage-link"><span class="logo-mark">W</span>Jiajun&nbsp;Wan</a>
+
             <!-- Main Navigation Menu -->
-            <nav class="main-nav" id="main-nav">
-                <a href="index.html" class="active">Home</a>
+            <nav class="main-nav" id="main-nav" aria-label="主导航">
                 <a href="#about">About</a>
+                <a href="#news">News</a>
                 <a href="#publications">Publications</a>
-                <a href="blog/index.html">Blog</a>
                 <a href="#honors">Awards</a>
+                <a href="blog/index.html">Blog</a>
             </nav>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" aria-label="Toggle menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换深色模式" title="切换主题">
+                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="main-nav">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- Main Content Wrapper -->
     <div class="wrapper">
-        
+
         <!-- Sidebar -->
-        <aside class="sidebar">
-            <img src="pics/profile_pic.jpg" alt="万家骏" class="profile-photo" onerror="this.src='https://via.placeholder.com/180C/O%20https://placeholder.com/';">
-            
-            <h1>万家骏</h1>
-            
-            <div class="title-info">
-                <p>电子信息工程</p>
-                <p>广东工业大学</p>
-                <p>NLP</p>
+        <aside class="sidebar" data-animate>
+            <div class="avatar-ring">
+                <img src="pics/profile_pic.jpg" alt="Jiajun Wan 的照片" class="profile-photo" width="180" height="180">
             </div>
 
+            <h1 class="site-name">Jiajun Wan<span class="site-name-cn">(万家骏)</span></h1>
+
+            <p class="bio-tagline">Undergraduate at GDUT.<br>
+                Interested in <b>NLP</b>, <b>Multimodal Learning</b> and <b>AI Security</b>.</p>
+
             <div class="contact-box">
-                <p><i class="fa-solid fa-envelope"></i>julianryder3901@gmail.com</p>
+                <p><i class="fa-solid fa-envelope"></i><a href="mailto:julianryder3901@gmail.com">julianryder3901 [at] gmail.com</a></p>
                 <p><i class="fa-brands fa-weixin"></i>Jyun39</p>
-                <p><i class="fa-solid fa-location-dot"></i>广州市，中国</p>
+                <p><i class="fa-solid fa-location-dot"></i>Guangzhou, China</p>
             </div>
 
             <div class="social-links">
                 <ul>
-                    <li><a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i>Google Scholar</a></li>
+                    <li><a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i>Google Scholar</a></li>
                     <li><a href="https://github.com/JulianRyder01" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i>GitHub (@JulianRyder01)</a></li>
                     <li><a href="https://space.bilibili.com/83721608" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-bilibili"></i>Bilibili</a></li>
-                    <li><a href=".pdf" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-file-pdf"></i>CV</a></li>
+                    <li><a href="#" onclick="alert('CV 即将上传');return false;"><i class="fa-solid fa-file-pdf"></i>Curriculum Vitae</a></li>
                 </ul>
             </div>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="main-content">
-            
+
             <!-- About Section -->
-            <section id="about">
+            <section id="about" data-animate>
                 <h2>About Me</h2>
-                <p>你好，我是万家骏，目前就读于广东工业大学大二。我的研究兴趣主要围绕自然语言处理、多模态情感分析领域。</p>
-                
-                <p>我性格踏实，做事专注，也在不断反思与改进自己的节奏与方法，希望能够在长期科研中保持稳定的投入与成长。目前我正在积极准备 2027 Fall 保研，期待能够加入合适的研究团队，在老师的指导下继续深入相关方向。</p>
+                <p>你好,我是<b>万家骏 (Jiajun Wan)</b>,广东工业大学电子信息工程专业本科生。我的研究兴趣围绕<b>自然语言处理</b>与<b>多模态学习</b>,同时对 <b>AI 安全</b>(对抗攻击 / 深度伪造检测)有浓厚兴趣——我的第一篇工作 <a href="#publications">ISPCloak</a> 就是从"真实相机的物理成像指纹"出发,重新审视了深度伪造检测器的鲁棒性边界。</p>
+                <p>我性格踏实,做事专注,习惯在长期科研中保持稳定的投入与节奏。目前我正在积极准备 <b>2027 Fall 保研</b>,期待能加入合适的研究团队,在老师的指导下继续深入相关方向。</p>
+
+                <div class="interest-chips" aria-label="研究兴趣标签">
+                    <span class="chip"><i class="fa-solid fa-language"></i>Natural Language Processing</span>
+                    <span class="chip"><i class="fa-solid fa-layer-group"></i>Multimodal Learning</span>
+                    <span class="chip"><i class="fa-solid fa-shield-halved"></i>AI Security</span>
+                    <span class="chip"><i class="fa-solid fa-camera"></i>Deepfake Forensics</span>
+                </div>
+            </section>
+
+            <!-- News Section -->
+            <section id="news" data-animate>
+                <h2>News</h2>
+                <ul class="news-list">
+                    <li>
+                        <span class="news-date">2026.07</span>
+                        <span class="news-text">🎉 一作论文 <b>ISPCloak</b> 被 <span class="venue-badge venue-mm">ACM MM 2026</span> 接收!</span>
+                    </li>
+                    <li>
+                        <span class="news-date">2026.07</span>
+                        <span class="news-text">ISPCloak 预印本上线 <a href="https://arxiv.org/abs/2607.21897" target="_blank" rel="noopener noreferrer">arXiv:2607.21897</a>。</span>
+                    </li>
+                </ul>
             </section>
 
             <!-- Publications Section -->
-            <section id="publications">
+            <section id="publications" data-animate>
                 <h2>Publications</h2>
-                <p class="section-note">* indicates equal contribution, alphabetical order</p>
 
                 <div class="pub-item">
-                    <span class="pub-title">TBD</span>
-                    <p class="pub-authors">TBD, <span class="my-name">Jiajun Wan*</span></p>
-                    <p class="pub-venue">TBD Meeting</p>
-                    <div class="pub-links">
-                        [<a href="https://ieeexplore.ieee.org/abstract/document/" target="_blank" rel="noopener noreferrer"> Paper</a>]
+                    <div class="pub-teaser" aria-hidden="true">
+                        <!-- 替换为论文 teaser 图:pics/iscloak_teaser.png -->
+                        <div class="teaser-fallback">
+                            <span class="tf-chip tf-a">RAW</span>
+                            <span class="tf-arrow"><i class="fa-solid fa-arrow-right-long"></i></span>
+                            <span class="tf-chip tf-b">Invertible ISP</span>
+                            <span class="tf-arrow"><i class="fa-solid fa-arrow-right-long"></i></span>
+                            <span class="tf-chip tf-c">Poisson-Gaussian Noise</span>
+                            <span class="tf-arrow"><i class="fa-solid fa-arrow-right-long"></i></span>
+                            <span class="tf-chip tf-d">Detector Fooled ✦</span>
+                        </div>
                     </div>
-                </div>
 
-            </section>
+                    <div class="pub-body">
+                        <p class="pub-title">ISPCloak: Weaponizing ISP for Optimization-Free Physical Camouflage against Deepfake Detectors</p>
 
-            <!-- Blog Section Preview -->
-            <section id="blog">
-                <h2>Blog</h2>
-                <div class="blog-intro">
-                    <p>我在博客中记录学习笔记、研究思考和生活感悟。欢迎阅读！</p>
-                </div>
-                
-                <div class="blog-list">
-                    <a href="blog/posts/welcome.html" class="blog-card">
-                        <h3 class="blog-card-title">Welcome to My Blog</h3>
-                        <p class="blog-card-excerpt">Welcome to my personal blog where I share my thoughts on machine learning, AI safety, and research.</p>
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">
-                                <i class="fa-regular fa-calendar"></i>
-                                2024-01-01
-                            </span>
-                            <span class="blog-card-category">General</span>
+                        <p class="pub-authors">
+                            Jiale Zhao*, <strong class="my-name">Jiajun Wan*</strong>, Lei Tang, Ye Qin, Kebing Jin, Jinghui Qin
+                        </p>
+
+                        <p class="pub-venue">
+                            <span class="venue-badge venue-mm">ACM MM 2026</span>
+                            <em class="pub-venue-note">Accepted by the 34th ACM International Conference on Multimedia</em>
+                        </p>
+
+                        <p class="pub-note">* Equal contribution.</p>
+
+                        <div class="pub-links">
+                            <a href="https://arxiv.org/abs/2607.21897" target="_blank" rel="noopener noreferrer" class="pub-btn pub-btn-primary"><i class="fa-solid fa-file-lines"></i>arXiv</a>
+                            <a href="https://arxiv.org/pdf/2607.21897" target="_blank" rel="noopener noreferrer" class="pub-btn"><i class="fa-solid fa-file-pdf"></i>PDF</a>
+                            <button type="button" class="pub-btn bibtex-btn"
+                                    data-bibtex-title="ISPCloak: Weaponizing ISP for Optimization-Free Physical Camouflage against Deepfake Detectors"
+                                    data-bibtex-key="zhao2026ispcloak"
+                                    data-bibtex-author="Zhao, Jiale and Wan, Jiajun and Tang, Lei and Qin, Ye and Jin, Kebing and Qin, Jinghui"
+                                    data-bibtex-venue="ACM Multimedia"
+                                    data-bibtex-year="2026"
+                                    data-bibtex-url="https://arxiv.org/abs/2607.21897"><i class="fa-solid fa-quote-left"></i>BibTeX</button>
                         </div>
-                    </a>
-                    
-                    <a href="blog/posts/differential-privacy-notes.html" class="blog-card">
-                        <h3 class="blog-card-title">Notes on Differential Privacy</h3>
-                        <p class="blog-card-excerpt">Some notes on differential privacy theory and its applications in machine learning.</p>
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">
-                                <i class="fa-regular fa-calendar"></i>
-                                2024-02-15
-                            </span>
-                            <span class="blog-card-category">Research</span>
-                        </div>
-                    </a>
-                    
-                    <a href="blog/posts/attention-mechanisms.html" class="blog-card">
-                        <h3 class="blog-card-title">Understanding Attention Mechanisms</h3>
-                        <p class="blog-card-excerpt">A deep dive into attention mechanisms in transformers and their theoretical properties.</p>
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">
-                                <i class="fa-regular fa-calendar"></i>
-                                2024-03-10
-                            </span>
-                            <span class="blog-card-category">Paper Reading</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <div style="margin-top: 1.5rem;">
-                    <a href="blog/index.html" class="blog-card" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                        <i class="fa-solid fa-arrow-right"></i>
-                        View All Posts
-                    </a>
+                    </div>
                 </div>
             </section>
 
             <!-- Honors & Awards Section -->
-            <section id="honors">
-                <h2>Honors & Awards</h2>
-                <ul>
+            <section id="honors" data-animate>
+                <h2>Honors &amp; Awards</h2>
+                <ul class="award-list">
                     <li>
                         <i class="fa-solid fa-trophy award-icon"></i>
-                        <span>2025华为昇腾AI创新大赛华南赛区铜奖</span>
-                        <span class="award-year">2024</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-award award-icon"></i>
-                        <span>2025高教社杯全国大学生数学建模竞赛广东赛区省三等奖</span>
-                        <span class="award-year">2024</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-graduation-cap award-icon"></i>
-                        <span>2024-2025年校级一等奖学金</span>
-                        <span class="award-year">2024</span>
+                        <span class="award-text">华为昇腾AI创新大赛华南赛区铜奖</span>
+                        <span class="award-year">2025</span>
                     </li>
                     <li>
                         <i class="fa-solid fa-code award-icon"></i>
-                        <span>2024蓝桥杯Python赛道广东省一等奖、国家级三等奖</span>
+                        <span class="award-text">蓝桥杯 Python 赛道广东省一等奖、国家级三等奖</span>
                         <span class="award-year">2024</span>
                     </li>
-                    
-                    <!-- Placeholder Awards -->
-                    <li class="placeholder">
-                        <i class="fa-solid fa-clock-rotate-left award-icon"></i>
-                        <span>More awards coming soon...</span>
+                    <li>
+                        <i class="fa-solid fa-square-root-variable award-icon"></i>
+                        <span class="award-text">高教社杯全国大学生数学建模竞赛广东赛区省三等奖</span>
+                        <span class="award-year">2024</span>
                     </li>
-                    
-                    <li class="placeholder">
-                        <i class="fa-solid fa-hourglass-half award-icon"></i>
-                        <span>More awards coming soon...</span>
+                    <li>
+                        <i class="fa-solid fa-medal award-icon"></i>
+                        <span class="award-text">校级一等奖学金</span>
+                        <span class="award-year">2024–2025</span>
                     </li>
                 </ul>
             </section>
+
+            <!-- Blog Section Preview -->
+            <section id="blog-preview" data-animate>
+                <h2>Blog <a class="view-all" href="blog/index.html">View all <i class="fa-solid fa-angle-right"></i></a></h2>
+                <div class="blog-list">
+                    <a href="blog/posts/welcome.html" class="blog-card">
+                        <h3 class="blog-card-title">Welcome to My Blog</h3>
+                        <p class="blog-card-excerpt">Welcome to my personal blog where I share my thoughts on machine learning, AI security, and research.</p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date"><i class="fa-regular fa-calendar"></i>2024-01-01</span>
+                            <span class="blog-card-category">General</span>
+                        </div>
+                    </a>
+
+                    <a href="blog/posts/differential-privacy-notes.html" class="blog-card">
+                        <h3 class="blog-card-title">Notes on Differential Privacy</h3>
+                        <p class="blog-card-excerpt">Some notes on differential privacy theory and its applications in machine learning.</p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date"><i class="fa-regular fa-calendar"></i>2024-02-15</span>
+                            <span class="blog-card-category">Research</span>
+                        </div>
+                    </a>
+
+                    <a href="blog/posts/attention-mechanisms.html" class="blog-card">
+                        <h3 class="blog-card-title">Understanding Attention Mechanisms</h3>
+                        <p class="blog-card-excerpt">A deep dive into attention mechanisms in transformers and their theoretical properties.</p>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date"><i class="fa-regular fa-calendar"></i>2024-03-10</span>
+                            <span class="blog-card-category">Paper Reading</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Visitors badge -->
+            <div class="visitor-row" aria-hidden="false">
+                <img src="https://komarev.com/ghpvc/?username=JulianRyder01&amp;color=6E56CF&amp;style=flat-square&amp;label=Visitors" alt="访问量统计">
+            </div>
 
         </main>
     </div>
 
     <!-- Footer -->
-    <footer style="text-align: center; padding: 2rem; border-top: 1px solid #eaecef; color: #888; font-size: 0.9rem;">
-        <p>&copy; 2026 万家骏. All rights reserved.</p>
-        <p style="margin-top: 0.5rem;">
+    <footer class="site-footer">
+        <p>&copy; 2024–2026 万家骏 · Jiajun Wan. All rights reserved.</p>
+        <p class="footer-meta">
+            Last updated: 2026-07 &nbsp;·&nbsp;
             <a href="https://github.com/JulianRyder01" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
-            &nbsp;|&nbsp;
-            <a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
+            &nbsp;·&nbsp;
+            <a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
         </p>
     </footer>
+
+    <!-- BibTeX Modal -->
+    <div class="modal-backdrop" id="bibtex-modal" role="dialog" aria-modal="true" aria-label="BibTeX 引用" hidden>
+        <div class="modal-card">
+            <div class="modal-head">
+                <h3><i class="fa-solid fa-quote-left"></i> BibTeX</h3>
+                <button type="button" class="modal-close" id="modal-close" aria-label="关闭">&times;</button>
+            </div>
+            <textarea class="bibtex-box" id="bibtex-textarea" rows="9" readonly spellcheck="false"></textarea>
+            <div class="modal-foot">
+                <span class="copy-hint" id="copy-hint"></span>
+                <button type="button" class="pub-btn pub-btn-primary" id="copy-bibtex"><i class="fa-solid fa-copy"></i>Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="回到顶部"><i class="fa-solid fa-chevron-up"></i></button>
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>

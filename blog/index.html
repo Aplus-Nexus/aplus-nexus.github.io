@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Blog of 万家骏 - Personal notes on machine learning, NLP, and research">
-    <meta name="author" content="万家骏">
+    <meta name="author" content="Jiajun Wan">
     <title>Blog - 万家骏</title>
     
     <!-- Fonts -->
@@ -15,6 +15,17 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Theme: apply saved preference before first paint -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('site-theme');
+                if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+                if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            } catch (e) { /* ignore */ }
+        })();
+    </script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
     
@@ -22,6 +33,9 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 </head>
 <body>
+
+    <!-- Reading progress bar -->
+    <div class="progress-bar" aria-hidden="true"></div>
 
     <!-- Navigation Bar -->
     <header class="top-nav">
@@ -38,7 +52,7 @@
             </nav>
             
             <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <button class="mobile-menu-toggle" id="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="main-nav">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
@@ -60,7 +74,7 @@
     </div>
 
     <!-- Blog Content Wrapper -->
-    <div class="wrapper" style="flex-direction: column; max-width: 900px;">
+    <div class="wrapper" style="display: block; max-width: 900px;">
         
         <!-- Blog List -->
         <div class="blog-list" id="blog-list">
@@ -109,14 +123,16 @@
     </div>
 
     <!-- Footer -->
-    <footer style="text-align: center; padding: 2rem; border-top: 1px solid #eaecef; color: #888; font-size: 0.9rem;">
-        <p>&copy; 2024-2025 万家骏. All rights reserved.</p>
-        <p style="margin-top: 0.5rem;">
+    <footer class="site-footer">
+        <p>&copy; 2024&ndash;2026 万家骏 · Jiajun Wan. All rights reserved.</p>
+        <p class="footer-meta">
             <a href="https://github.com/JulianRyder01" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
-            &nbsp;|&nbsp;
-            <a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
         </p>
     </footer>
+
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="回到顶部"><i class="fa-solid fa-chevron-up"></i></button>
 
     <!-- JavaScript -->
     <script src="../js/main.js"></script>
