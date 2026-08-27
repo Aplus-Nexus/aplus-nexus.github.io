@@ -208,18 +208,6 @@ section h2::before {
 }
 .homepage-link:hover { opacity: 0.85; }
 
-.logo-mark {
-    display: inline-grid;
-    place-items: center;
-    width: 30px; height: 30px;
-    border-radius: 9px;
-    font-family: var(--font-serif-sc);
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
-    box-shadow: 0 3px 10px var(--primary-glow);
-}
-
 .main-nav {
     display: flex;
     align-items: center;
@@ -974,7 +962,6 @@ body.modal-open { overflow: hidden; }
 /* Small phones */
 @media (max-width: 400px) {
     body { font-size: 15px; }
-    .homepage-link span.logo-mark { display: none; }
     .tf-chip { font-size: 0.58rem; }
 }
 
