@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,13 +24,21 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Theme: apply saved preference before first paint -->
+    <!-- Theme & language: apply saved preferences before first paint -->
     <script>
         (function () {
             try {
                 var t = localStorage.getItem('site-theme');
                 if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
                 if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+                var l = localStorage.getItem('site-lang');
+                if (!l) {
+                    var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+                    l = nav.indexOf('zh') === 0 ? 'zh' : 'en';
+                }
+                document.documentElement.setAttribute('data-lang', l === 'en' ? 'en' : 'zh');
+                document.documentElement.lang = l === 'en' ? 'en' : 'zh-CN';
             } catch (e) { /* ignore */ }
         })();
     </script>
@@ -52,21 +60,22 @@
             <a href="index.html" class="homepage-link">Jiajun&nbsp;Wan</a>
 
             <!-- Main Navigation Menu -->
-            <nav class="main-nav" id="main-nav" aria-label="主导航">
-                <a href="#about">About</a>
-                <a href="#news">News</a>
-                <a href="#publications">Publications</a>
-                <a href="#honors">Awards</a>
-                <a href="blog/index.html">Blog</a>
+            <nav class="main-nav" id="main-nav" aria-label="主导航 / Main navigation">
+                <a href="#about" data-i18n="nav.about">关于</a>
+                <a href="#updates" data-i18n="nav.updates">动态</a>
+                <a href="#publications" data-i18n="nav.publications">论文</a>
+                <a href="#honors" data-i18n="nav.awards">荣誉</a>
+                <a href="blog/index.html" data-i18n="nav.blog">博客</a>
             </nav>
 
             <div class="nav-actions">
-                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换深色模式" title="切换主题">
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题 / Toggle theme" title="切换主题">
                     <i class="fa-solid fa-moon"></i>
                     <i class="fa-solid fa-sun"></i>
                 </button>
+                <button class="lang-toggle" id="lang-toggle" type="button" aria-label="切换到英文 / Switch to English" title="语言 / Language">EN</button>
                 <!-- Mobile Menu Toggle -->
-                <button class="mobile-menu-toggle" id="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="main-nav">
+                <button class="mobile-menu-toggle" id="menu-toggle" type="button" aria-label="打开菜单 / Open menu" aria-expanded="false" aria-controls="main-nav">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
@@ -79,18 +88,17 @@
         <!-- Sidebar -->
         <aside class="sidebar" data-animate>
             <div class="avatar-ring">
-                <img src="pics/profile_pic.jpg" alt="Jiajun Wan 的照片" class="profile-photo" width="180" height="180">
+                <img src="pics/profile_pic.jpg" alt="Jiajun Wan / 万家骏" class="profile-photo" width="180" height="180">
             </div>
 
             <h1 class="site-name">Jiajun Wan<span class="site-name-cn">(万家骏)</span></h1>
 
-            <p class="bio-tagline">Undergraduate at GDUT.<br>
-                Interested in <b>NLP</b>, <b>Multimodal Learning</b> and <b>AI Security</b>.</p>
+            <p class="bio-tagline" data-i18n-html="bio">广东工业大学本科生。<br>对 <b>NLP</b>、<b>多模态学习</b> 与 <b>AI 安全</b> 感兴趣。</p>
 
             <div class="contact-box">
                 <p><i class="fa-solid fa-envelope"></i><a href="mailto:julianryder3901@gmail.com">julianryder3901@gmail.com</a></p>
                 <p><i class="fa-brands fa-weixin"></i>Jyun39</p>
-                <p><i class="fa-solid fa-location-dot"></i>Guangzhou, China</p>
+                <p data-i18n="loc"><i class="fa-solid fa-location-dot"></i>广州，中国</p>
             </div>
 
             <div class="social-links">
@@ -98,7 +106,7 @@
                     <li><a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i>Google Scholar</a></li>
                     <li><a href="https://github.com/JulianRyder01" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i>GitHub (@JulianRyder01)</a></li>
                     <li><a href="https://space.bilibili.com/83721608" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-bilibili"></i>Bilibili</a></li>
-                    <li><a href="#" onclick="alert('CV 即将上传');return false;"><i class="fa-solid fa-file-pdf"></i>Curriculum Vitae</a></li>
+                    <li><a href="#" onclick="alert('CV 即将上传 / Coming soon');return false;" data-i18n="cv"><i class="fa-solid fa-file-pdf"></i>个人简历</a></li>
                 </ul>
             </div>
         </aside>
@@ -108,36 +116,36 @@
 
             <!-- About Section -->
             <section id="about" data-animate>
-                <h2>About Me</h2>
-                <p>你好,我是<b>万家骏 (Jiajun Wan)</b>,广东工业大学电子信息工程专业本科生。我的研究兴趣围绕<b>自然语言处理</b>与<b>多模态学习</b>,同时对 <b>AI 安全</b>(对抗攻击 / 深度伪造检测)有浓厚兴趣——我的第一篇工作 <a href="#publications">ISPCloak</a> 就是从"真实相机的物理成像指纹"出发,重新审视了深度伪造检测器的鲁棒性边界。</p>
-                <p>我性格踏实,做事专注,习惯在长期科研中保持稳定的投入与节奏。目前我正在积极准备 <b>2027 Fall 保研</b>,期待能加入合适的研究团队,在老师的指导下继续深入相关方向。</p>
+                <h2 data-i18n="about.title">关于我</h2>
+                <p data-i18n-html="about.p1">你好，我是<b>万家骏 (Jiajun Wan)</b>，广东工业大学电子信息工程专业本科生。我的研究兴趣围绕<b>自然语言处理</b>与<b>多模态学习</b>，同时对 <b>AI 安全</b>（对抗攻击 / 深度伪造检测）有浓厚兴趣——我的第一篇工作 <a href="#publications">ISPCloak</a> 就从“真实相机的物理成像指纹”出发，重新审视了深度伪造检测器的鲁棒性边界。</p>
+                <p data-i18n-html="about.p2">我性格踏实，做事专注，习惯在长期科研中保持稳定的投入与节奏。目前我正在积极准备 <b>2027 Fall 保研</b>，期待能加入合适的研究团队，在老师的指导下继续深入相关方向。</p>
 
-                <div class="interest-chips" aria-label="研究兴趣标签">
-                    <span class="chip"><i class="fa-solid fa-language"></i>Natural Language Processing</span>
-                    <span class="chip"><i class="fa-solid fa-layer-group"></i>Multimodal Learning</span>
-                    <span class="chip"><i class="fa-solid fa-shield-halved"></i>AI Security</span>
-                    <span class="chip"><i class="fa-solid fa-camera"></i>Deepfake Forensics</span>
+                <div class="interest-chips" aria-label="研究兴趣 / Research interests">
+                    <span class="chip" data-i18n="chip.nlp"><i class="fa-solid fa-language"></i>自然语言处理</span>
+                    <span class="chip" data-i18n="chip.mm"><i class="fa-solid fa-layer-group"></i>多模态学习</span>
+                    <span class="chip" data-i18n="chip.security"><i class="fa-solid fa-shield-halved"></i>AI 安全</span>
+                    <span class="chip" data-i18n="chip.forensics"><i class="fa-solid fa-camera"></i>深度伪造取证</span>
                 </div>
             </section>
 
-            <!-- News Section -->
-            <section id="news" data-animate>
-                <h2>News</h2>
+            <!-- Updates Section -->
+            <section id="updates" data-animate>
+                <h2 data-i18n="updates.title">动态</h2>
                 <ul class="news-list">
                     <li>
                         <span class="news-date">2026.07</span>
-                        <span class="news-text">🎉 一作论文 <b>ISPCloak</b> 被 <span class="venue-badge venue-mm">ACM MM 2026</span> 接收!</span>
+                        <span class="news-text" data-i18n-html="updates.i1">🎉 论文 <b>ISPCloak</b> 被 <span class="venue-badge venue-mm">ACM MM 2026</span> 接收！</span>
                     </li>
                     <li>
                         <span class="news-date">2026.07</span>
-                        <span class="news-text">ISPCloak 预印本上线 <a href="https://arxiv.org/abs/2607.21897" target="_blank" rel="noopener noreferrer">arXiv:2607.21897</a>。</span>
+                        <span class="news-text" data-i18n-html="updates.i2">ISPCloak 预印本上线 <a href="https://arxiv.org/abs/2607.21897" target="_blank" rel="noopener noreferrer">arXiv:2607.21897</a>。</span>
                     </li>
                 </ul>
             </section>
 
             <!-- Publications Section -->
             <section id="publications" data-animate>
-                <h2>Publications</h2>
+                <h2 data-i18n="pubs.title">论文</h2>
 
                 <div class="pub-item">
                     <div class="pub-teaser" aria-hidden="true">
@@ -162,7 +170,7 @@
 
                         <p class="pub-venue">
                             <span class="venue-badge venue-mm">ACM MM 2026</span>
-                            <em class="pub-venue-note">Accepted by the 34th ACM International Conference on Multimedia</em>
+                            <em class="pub-venue-note" data-i18n="pub.venuenote">被第 34 届 ACM 国际多媒体大会接收</em>
                         </p>
 
                         <div class="pub-links">
@@ -182,26 +190,26 @@
 
             <!-- Honors & Awards Section -->
             <section id="honors" data-animate>
-                <h2>Honors &amp; Awards</h2>
+                <h2 data-i18n="awards.title">荣誉与奖项</h2>
                 <ul class="award-list">
                     <li>
                         <i class="fa-solid fa-trophy award-icon"></i>
-                        <span class="award-text">华为昇腾AI创新大赛华南赛区铜奖</span>
+                        <span class="award-text" data-i18n="award.1">华为昇腾AI创新大赛华南赛区铜奖</span>
                         <span class="award-year">2025</span>
                     </li>
                     <li>
                         <i class="fa-solid fa-code award-icon"></i>
-                        <span class="award-text">蓝桥杯 Python 赛道广东省一等奖、国家级三等奖</span>
+                        <span class="award-text" data-i18n="award.2">蓝桥杯 Python 赛道广东省一等奖、国家级三等奖</span>
                         <span class="award-year">2024</span>
                     </li>
                     <li>
                         <i class="fa-solid fa-square-root-variable award-icon"></i>
-                        <span class="award-text">高教社杯全国大学生数学建模竞赛广东赛区省三等奖</span>
+                        <span class="award-text" data-i18n="award.3">高教社杯全国大学生数学建模竞赛广东赛区省三等奖</span>
                         <span class="award-year">2024</span>
                     </li>
                     <li>
                         <i class="fa-solid fa-medal award-icon"></i>
-                        <span class="award-text">校级一等奖学金</span>
+                        <span class="award-text" data-i18n="award.4">校级一等奖学金</span>
                         <span class="award-year">2024–2025</span>
                     </li>
                 </ul>
@@ -209,32 +217,32 @@
 
             <!-- Blog Section Preview -->
             <section id="blog-preview" data-animate>
-                <h2>Blog <a class="view-all" href="blog/index.html">View all <i class="fa-solid fa-angle-right"></i></a></h2>
+                <h2><span data-i18n="blog.title">博客</span> <a class="view-all" href="blog/index.html" data-i18n="blog.viewall">查看全部 <i class="fa-solid fa-angle-right"></i></a></h2>
                 <div class="blog-list">
                     <a href="blog/posts/welcome.html" class="blog-card">
                         <h3 class="blog-card-title">Welcome to My Blog</h3>
-                        <p class="blog-card-excerpt">Welcome to my personal blog where I share my thoughts on machine learning, AI security, and research.</p>
+                        <p class="blog-card-excerpt" data-i18n-html="blog.excerpt.1">欢迎来到我的博客，这里记录我对机器学习和 AI 安全的研究与思考。</p>
                         <div class="blog-card-meta">
                             <span class="blog-card-date"><i class="fa-regular fa-calendar"></i>2024-01-01</span>
-                            <span class="blog-card-category">General</span>
+                            <span class="blog-card-category" data-i18n="blogcat.pg">通用</span>
                         </div>
                     </a>
 
                     <a href="blog/posts/differential-privacy-notes.html" class="blog-card">
                         <h3 class="blog-card-title">Notes on Differential Privacy</h3>
-                        <p class="blog-card-excerpt">Some notes on differential privacy theory and its applications in machine learning.</p>
+                        <p class="blog-card-excerpt" data-i18n-html="blog.excerpt.2">关于差分隐私理论及其在机器学习中应用的笔记。</p>
                         <div class="blog-card-meta">
                             <span class="blog-card-date"><i class="fa-regular fa-calendar"></i>2024-02-15</span>
-                            <span class="blog-card-category">Research</span>
+                            <span class="blog-card-category" data-i18n="blogcat.research">研究</span>
                         </div>
                     </a>
 
                     <a href="blog/posts/attention-mechanisms.html" class="blog-card">
                         <h3 class="blog-card-title">Understanding Attention Mechanisms</h3>
-                        <p class="blog-card-excerpt">A deep dive into attention mechanisms in transformers and their theoretical properties.</p>
+                        <p class="blog-card-excerpt" data-i18n-html="blog.excerpt.3">深入剖析 Transformer 中注意力机制及其理论性质。</p>
                         <div class="blog-card-meta">
                             <span class="blog-card-date"><i class="fa-regular fa-calendar"></i>2024-03-10</span>
-                            <span class="blog-card-category">Paper Reading</span>
+                            <span class="blog-card-category" data-i18n="blogcat.pr">论文阅读</span>
                         </div>
                     </a>
                 </div>
@@ -242,7 +250,7 @@
 
             <!-- Visitors badge -->
             <div class="visitor-row" aria-hidden="false">
-                <img src="https://komarev.com/ghpvc/?username=JulianRyder01&amp;color=6E56CF&amp;style=flat-square&amp;label=Visitors" alt="访问量统计">
+                <img src="https://komarev.com/ghpvc/?username=JulianRyder01&amp;color=6E56CF&amp;style=flat-square&amp;label=Visitors" alt="访问量统计 / Page views">
             </div>
 
         </main>
@@ -250,31 +258,30 @@
 
     <!-- Footer -->
     <footer class="site-footer">
-        <p>&copy; 2024–2026 万家骏 · Jiajun Wan. All rights reserved.</p>
+        <p>&copy; 2024–2026 万家骏 · Jiajun Wan. <span data-i18n="footer.rights">保留所有权利</span>。</p>
         <p class="footer-meta">
-            Last updated: 2026-07 &nbsp;·&nbsp;
             <a href="https://github.com/JulianRyder01" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
-            &nbsp;·&nbsp;
+            &nbsp;&middot;&nbsp;
             <a href="https://scholar.google.com.hk/citations?user=JCVGLDQAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-graduation-cap"></i> Google Scholar</a>
         </p>
     </footer>
 
     <!-- BibTeX Modal -->
-    <div class="modal-backdrop" id="bibtex-modal" role="dialog" aria-modal="true" aria-label="BibTeX 引用" hidden>
+    <div class="modal-backdrop" id="bibtex-modal" role="dialog" aria-modal="true" aria-label="BibTeX 引用 / BibTeX citation" hidden>
         <div class="modal-card">
             <div class="modal-head">
                 <h3><i class="fa-solid fa-quote-left"></i> BibTeX</h3>
-                <button type="button" class="modal-close" id="modal-close" aria-label="关闭">&times;</button>
+                <button type="button" class="modal-close" id="modal-close" aria-label="关闭 / Close">&times;</button>
             </div>
             <textarea class="bibtex-box" id="bibtex-textarea" rows="9" readonly spellcheck="false"></textarea>
             <div class="modal-foot">
                 <span class="copy-hint" id="copy-hint"></span>
-                <button type="button" class="pub-btn pub-btn-primary" id="copy-bibtex"><i class="fa-solid fa-copy"></i>Copy</button>
+                <button type="button" class="pub-btn pub-btn-primary" id="copy-bibtex"><i class="fa-solid fa-copy"></i><span data-i18n="modal.copy">复制</span></button>
             </div>
         </div>
     </div>
 
-    <button class="back-to-top" id="back-to-top" type="button" aria-label="回到顶部"><i class="fa-solid fa-chevron-up"></i></button>
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="回到顶部 / Back to top"><i class="fa-solid fa-chevron-up"></i></button>
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>

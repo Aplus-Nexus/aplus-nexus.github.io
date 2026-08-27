@@ -1,6 +1,6 @@
 /**
  * Jiajun Wan — Academic Homepage Scripts
- * Theme switching · reading progress · scroll animations
+ * i18n (zh/en) · theme switching · reading progress · scroll animations
  * mobile nav · BibTeX modal · back-to-top · blog filtering
  */
 (function () {
@@ -10,8 +10,142 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* =====================================================
-     * Theme (light / dark), applied before paint via inline
-     * snippet in <head>; this part only wires the toggle.
+     * i18n dictionary
+     * ===================================================== */
+    var I18N = {
+        zh: {
+            'nav.home': '首页',
+            'nav.about': '关于',
+            'nav.updates': '动态',
+            'nav.publications': '论文',
+            'nav.awards': '荣誉',
+            'nav.blog': '博客',
+            'bio': '广东工业大学本科生。<br>对 <b>NLP</b>、<b>多模态学习</b> 与 <b>AI 安全</b> 感兴趣。',
+            'loc': '广州，中国',
+            'cv': '个人简历',
+            'about.title': '关于我',
+            'about.p1': '你好，我是<b>万家骏 (Jiajun Wan)</b>，广东工业大学电子信息工程专业本科生。我的研究兴趣围绕<b>自然语言处理</b>与<b>多模态学习</b>，同时对 <b>AI 安全</b>（对抗攻击 / 深度伪造检测）有浓厚兴趣——我的第一篇工作 <a href="#publications">ISPCloak</a> 就从“真实相机的物理成像指纹”出发，重新审视了深度伪造检测器的鲁棒性边界。',
+            'about.p2': '我性格踏实，做事专注，习惯在长期科研中保持稳定的投入与节奏。目前我正在积极准备 <b>2027 Fall 保研</b>，期待能加入合适的研究团队，在老师的指导下继续深入相关方向。',
+            'chip.nlp': '自然语言处理',
+            'chip.mm': '多模态学习',
+            'chip.security': 'AI 安全',
+            'chip.forensics': '深度伪造取证',
+            'updates.title': '动态',
+            'updates.i1': '🎉 论文 <b>ISPCloak</b> 被 <span class="venue-badge venue-mm">ACM MM 2026</span> 接收！',
+            'updates.i2': 'ISPCloak 预印本上线 <a href="https://arxiv.org/abs/2607.21897" target="_blank" rel="noopener noreferrer">arXiv:2607.21897</a>。',
+            'pubs.title': '论文',
+            'pub.venuenote': '被第 34 届 ACM 国际多媒体大会接收',
+            'awards.title': '荣誉与奖项',
+            'award.1': '华为昇腾AI创新大赛华南赛区铜奖',
+            'award.2': '蓝桥杯 Python 赛道广东省一等奖、国家级三等奖',
+            'award.3': '高教社杯全国大学生数学建模竞赛广东赛区省三等奖',
+            'award.4': '校级一等奖学金',
+            'blog.title': '博客',
+            'blog.viewall': '查看全部',
+            'blog.subtitle': '记录学习笔记、研究思考和生活感悟',
+            'blog.excerpt.1': '欢迎来到我的博客，这里记录我对机器学习和 AI 安全的研究与思考。',
+            'blog.excerpt.2': '关于差分隐私理论及其在机器学习中应用的笔记。',
+            'blog.excerpt.3': '深入剖析 Transformer 中注意力机制及其理论性质。',
+            'blogcat.all': '全部',
+            'blogcat.pg': '通用',
+            'blogcat.research': '研究',
+            'blogcat.pr': '论文阅读',
+            'blogcat.thoughts': '随笔',
+            'footer.rights': '保留所有权利',
+            'modal.copy': '复制',
+            'modal.copied': '✓ 已复制到剪贴板',
+            'modal.copyfail': '复制失败，请手动选择复制'
+        },
+        en: {
+            'nav.home': 'Home',
+            'nav.about': 'About',
+            'nav.updates': 'Updates',
+            'nav.publications': 'Publications',
+            'nav.awards': 'Awards',
+            'nav.blog': 'Blog',
+            'bio': 'Undergraduate at GDUT.<br>Interested in <b>NLP</b>, <b>Multimodal Learning</b> and <b>AI Security</b>.',
+            'loc': 'Guangzhou, China',
+            'cv': 'Curriculum Vitae',
+            'about.title': 'About Me',
+            'about.p1': "Hi, I'm <b>Jiajun Wan（万家骏）</b>, an undergraduate student in Electronic Information Engineering at Guangdong University of Technology. My research interests center on <b>Natural Language Processing</b> and <b>Multimodal Learning</b>, along with a growing interest in <b>AI Security</b> (adversarial attacks / deepfake detection) — my first work, <a href=\"#publications\">ISPCloak</a>, re-examines the robustness boundary of deepfake detectors from the physical imaging fingerprints of real cameras.",
+            'about.p2': "I am steady and focused by nature, and I like to keep a sustainable pace of research over the long run. I am currently preparing for graduate admission in <b>Fall 2027</b>, hoping to join a research group and dig deeper into these directions under proper guidance.",
+            'chip.nlp': 'Natural Language Processing',
+            'chip.mm': 'Multimodal Learning',
+            'chip.security': 'AI Security',
+            'chip.forensics': 'Deepfake Forensics',
+            'updates.title': 'Updates',
+            'updates.i1': '🎉 Our paper <b>ISPCloak</b> is accepted by <span class="venue-badge venue-mm">ACM MM 2026</span>!',
+            'updates.i2': 'ISPCloak preprint is online at <a href="https://arxiv.org/abs/2607.21897" target="_blank" rel="noopener noreferrer">arXiv:2607.21897</a>.',
+            'pubs.title': 'Publications',
+            'pub.venuenote': 'Accepted by the 34th ACM International Conference on Multimedia',
+            'awards.title': 'Honors &amp; Awards',
+            'award.1': 'Huawei Ascend AI Innovation Competition — Bronze Award, South China Division',
+            'award.2': 'Lanqiao Cup (Python Track) — First Prize (Guangdong), Third Prize (National)',
+            'award.3': 'CUMCM Higher Education Cup — Third Prize, Guangdong Division',
+            'award.4': 'University First-Class Scholarship',
+            'blog.title': 'Blog',
+            'blog.viewall': 'View all',
+            'blog.subtitle': 'Notes on learning, research, and life',
+            'blog.excerpt.1': 'Welcome to my personal blog where I share my thoughts on machine learning, AI security, and research.',
+            'blog.excerpt.2': 'Some notes on differential privacy theory and its applications in machine learning.',
+            'blog.excerpt.3': 'A deep dive into attention mechanisms in transformers and their theoretical properties.',
+            'blogcat.all': 'All',
+            'blogcat.pg': 'General',
+            'blogcat.research': 'Research',
+            'blogcat.pr': 'Paper Reading',
+            'blogcat.thoughts': 'Thoughts',
+            'footer.rights': 'All rights reserved.',
+            'modal.copy': 'Copy',
+            'modal.copied': '✓ Copied to clipboard',
+            'modal.copyfail': 'Copy failed — please select & copy manually'
+        }
+    };
+
+    var LANG = 'zh';
+
+    function currentLang() {
+        var l = docEl.getAttribute('data-lang');
+        if (l === 'en' || l === 'zh') return l;
+        var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+        return nav.indexOf('zh') === 0 ? 'zh' : 'en';
+    }
+
+    function applyLang(lang) {
+        if (!I18N[lang]) lang = 'zh';
+        LANG = lang;
+        docEl.setAttribute('data-lang', lang);
+        docEl.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        var dict = I18N[lang];
+
+        docEl.querySelectorAll('[data-i18n]').forEach(function (el) {
+            var key = el.getAttribute('data-i18n');
+            if (dict[key]) el.textContent = dict[key];
+        });
+        docEl.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+            var key = el.getAttribute('data-i18n-html');
+            if (dict[key]) el.innerHTML = dict[key];
+        });
+
+        var lt = document.getElementById('lang-toggle');
+        if (lt) {
+            lt.textContent = lang === 'zh' ? 'EN' : '中文';
+            lt.setAttribute('aria-label', lang === 'zh' ? 'Switch to English' : '切换到中文');
+        }
+        if (document.getElementById('blog-categories')) BlogSystem.renderCategories(lang);
+    }
+
+    function initLangToggle() {
+        var lt = document.getElementById('lang-toggle');
+        if (!lt) return;
+        lt.addEventListener('click', function () {
+            var next = LANG === 'zh' ? 'en' : 'zh';
+            try { localStorage.setItem('site-lang', next); } catch (e) { /* private mode */ }
+            applyLang(next);
+        });
+    }
+
+    /* =====================================================
+     * Theme toggle
      * ===================================================== */
     function initThemeToggle() {
         var btn = document.getElementById('theme-toggle');
@@ -70,7 +204,6 @@
             setOpen(!nav.classList.contains('active'));
         });
 
-        // Close when a nav link is clicked or clicking outside
         nav.addEventListener('click', function (e) {
             if (e.target.closest('a')) setOpen(false);
         });
@@ -81,7 +214,6 @@
             }
         });
 
-        // Active item by path
         var path = window.location.pathname;
         nav.querySelectorAll('a').forEach(function (link) {
             var href = link.getAttribute('href') || '';
@@ -103,7 +235,6 @@
             return;
         }
 
-        docEl.classList.add('js-anim');
         var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
@@ -120,7 +251,7 @@
     }
 
     /* =====================================================
-     * Smooth anchor scrolling (offset by fixed navbar)
+     * Smooth anchor scrolling
      * ===================================================== */
     function initSmoothScroll() {
         document.addEventListener('click', function (e) {
@@ -236,7 +367,6 @@
             }, 220);
         }
 
-        // Openers (event delegation — works for dynamically added papers)
         document.addEventListener('click', function (e) {
             var btn = e.target.closest('.bibtex-btn');
             if (!btn) return;
@@ -259,49 +389,35 @@
         });
 
         copyBtn.addEventListener('click', function () {
+            var t = I18N[LANG];
             copyText(textarea.value,
                 function () {
                     hint.classList.remove('err');
-                    hint.textContent = '✓ Copied to clipboard';
+                    hint.textContent = t['modal.copied'];
                     setTimeout(function () { hint.textContent = ''; }, 2400);
                 },
                 function () {
                     hint.classList.add('err');
-                    hint.textContent = 'Copy failed — please select & copy manually';
+                    hint.textContent = t['modal.copyfail'];
                 });
         });
     }
 
     /* =====================================================
      * Blog list (filtering on blog/index.html)
-     * Kept compatible with the previous post registry.
      * ===================================================== */
     var BlogSystem = {
         posts: [
-            {
-                title: 'Welcome to My Blog',
-                slug: 'welcome',
-                date: '2024-01-01',
-                category: 'General',
-                excerpt: 'Welcome to my personal blog where I share my thoughts on machine learning, AI security, and research.'
-            },
-            {
-                title: 'Notes on Differential Privacy',
-                slug: 'differential-privacy-notes',
-                date: '2024-02-15',
-                category: 'Research',
-                excerpt: 'Some notes on differential privacy theory and its applications in machine learning.'
-            },
-            {
-                title: 'Understanding Attention Mechanisms',
-                slug: 'attention-mechanisms',
-                date: '2024-03-10',
-                category: 'Paper Reading',
-                excerpt: 'A deep dive into attention mechanisms in transformers and their theoretical properties.'
-            }
+            { title: 'Welcome to My Blog', slug: 'welcome', date: '2024-01-01', cat: 'pg', excerptKey: 'blog.excerpt.1' },
+            { title: 'Notes on Differential Privacy', slug: 'differential-privacy-notes', date: '2024-02-15', cat: 'research', excerptKey: 'blog.excerpt.2' },
+            { title: 'Understanding Attention Mechanisms', slug: 'attention-mechanisms', date: '2024-03-10', cat: 'pr', excerptKey: 'blog.excerpt.3' }
         ],
 
-        categories: ['All', 'General', 'Research', 'Paper Reading', 'Thoughts'],
+        categories: ['all', 'pg', 'research', 'pr', 'thoughts'],
+
+        label: function (cat) {
+            return (I18N[LANG] && I18N[LANG]['blogcat.' + cat]) || cat;
+        },
 
         init: function () {
             this.renderPosts();
@@ -313,26 +429,28 @@
             if (!container) return;
 
             var posts = postsToRender || this.posts;
+            var dict = I18N[LANG];
+            var self = this;
             container.innerHTML = posts.map(function (post) {
                 return '' +
                     '<a href="posts/' + post.slug + '.html" class="blog-card">' +
                     '<h3 class="blog-card-title">' + post.title + '</h3>' +
-                    '<p class="blog-card-excerpt">' + post.excerpt + '</p>' +
+                    '<p class="blog-card-excerpt">' + (dict[post.excerptKey] || '') + '</p>' +
                     '<div class="blog-card-meta">' +
                     '<span class="blog-card-date"><i class="fa-regular fa-calendar"></i>' + post.date + '</span>' +
-                    '<span class="blog-card-category">' + post.category + '</span>' +
+                    '<span class="blog-card-category">' + self.label(post.cat) + '</span>' +
                     '</div></a>';
             }).join('');
         },
 
-        renderCategories: function () {
+        renderCategories: function (lang) {
             var container = document.getElementById('blog-categories');
             if (!container) return;
 
             var self = this;
             container.innerHTML = this.categories.map(function (category) {
-                return '<button class="blog-category-tag' + (category === 'All' ? ' active' : '') +
-                    '" data-category="' + category + '">' + category + '</button>';
+                return '<button class="blog-category-tag' + (category === 'all' ? ' active' : '') +
+                    '" data-category="' + category + '">' + self.label(category) + '</button>';
             }).join('');
 
             container.querySelectorAll('.blog-category-tag').forEach(function (tag) {
@@ -343,34 +461,33 @@
                     tag.classList.add('active');
 
                     var category = tag.getAttribute('data-category');
-                    self.renderPosts(category === 'All'
+                    self.renderPosts(category === 'all'
                         ? null
-                        : self.posts.filter(function (p) { return p.category === category; }));
+                        : self.posts.filter(function (p) { return p.cat === category; }));
                 });
             });
         }
     };
 
     /* =====================================================
-     * Boot
+     * Boot (script sits at end of <body>; DOM is ready)
      * ===================================================== */
-    function boot() {
-        initThemeToggle();
-        initProgressBar();
-        initNavigation();
-        initAnimations();
-        initSmoothScroll();
-        initBackToTop();
-        initBibtexModal();
-        if (document.getElementById('blog-list')) BlogSystem.init();
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-    } else {
-        boot();
-    }
+    applyLang(currentLang());
+    initLangToggle();
+    initThemeToggle();
+    initProgressBar();
+    initNavigation();
+    initAnimations();
+    initSmoothScroll();
+    initBackToTop();
+    initBibtexModal();
+    if (document.getElementById('blog-list')) BlogSystem.init();
 
     // Export for debugging / external use
-    window.AcademicSite = { BlogSystem: BlogSystem };
+    window.AcademicSite = {
+        BlogSystem: BlogSystem,
+        I18N: I18N,
+        applyLang: applyLang,
+        getLang: function () { return LANG; }
+    };
 })();

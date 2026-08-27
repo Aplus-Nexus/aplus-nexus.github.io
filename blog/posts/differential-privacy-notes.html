@@ -15,13 +15,21 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Theme: apply saved preference before first paint -->
+    <!-- Theme & language: apply saved preferences before first paint -->
     <script>
         (function () {
             try {
                 var t = localStorage.getItem('site-theme');
                 if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
                 if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+                var l = localStorage.getItem('site-lang');
+                if (!l) {
+                    var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+                    l = nav.indexOf('zh') === 0 ? 'zh' : 'en';
+                }
+                document.documentElement.setAttribute('data-lang', l === 'en' ? 'en' : 'zh');
+                document.documentElement.lang = l === 'en' ? 'en' : 'zh-CN';
             } catch (e) { /* ignore */ }
         })();
     </script>
@@ -44,11 +52,11 @@
             
             <!-- Main Navigation Menu -->
             <nav class="main-nav" id="main-nav">
-                <a href="../../index.html">Home</a>
-                <a href="../../index.html#about">About</a>
-                <a href="../../index.html#publications">Publications</a>
-                <a href="../index.html" class="active">Blog</a>
-                <a href="../../index.html#honors">Awards</a>
+                <a href="../../index.html"><span data-i18n="nav.home">首页</span></a>
+                <a href="../../index.html#about"><span data-i18n="nav.about">关于</span></a>
+                <a href="../../index.html#publications"><span data-i18n="nav.publications">论文</span></a>
+                <a href="../index.html" class="active"><span data-i18n="nav.blog">博客</span></a>
+                <a href="../../index.html#honors"><span data-i18n="nav.awards">荣誉</span></a>
             </nav>
             
             <!-- Mobile Menu Toggle -->

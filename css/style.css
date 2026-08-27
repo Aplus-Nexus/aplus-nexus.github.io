@@ -235,6 +235,7 @@ section h2::before {
 .nav-actions { display: flex; align-items: center; gap: 0.4rem; }
 
 .theme-toggle,
+.lang-toggle,
 .mobile-menu-toggle {
     display: inline-grid;
     place-items: center;
@@ -248,13 +249,21 @@ section h2::before {
     transition: color var(--transition-fast), border-color var(--transition-fast),
                 transform var(--transition-fast), box-shadow var(--transition-fast);
 }
-.theme-toggle:hover, .mobile-menu-toggle:hover {
+.lang-toggle {
+    width: auto;
+    padding: 0 0.68rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    font-family: "Inter", sans-serif;
+}
+.theme-toggle:hover, .lang-toggle:hover, .mobile-menu-toggle:hover {
     color: var(--primary-color);
     border-color: var(--primary-light);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
-.theme-toggle:active, .mobile-menu-toggle:active { transform: translateY(0); }
+.theme-toggle:active, .lang-toggle:active, .mobile-menu-toggle:active { transform: translateY(0); }
 
 /* sun/moon swap */
 .theme-toggle .fa-sun { display: none; }
