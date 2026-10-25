@@ -1,17 +1,10 @@
-# Aplus 云组会 · Personal site
+# 万家骏（Jiajun Wan）个人站
 
-A personal portfolio for **Aplus-Nexus**: research, technology, and human-centered tools.
+这是万家骏的个人主页，记录科研、项目、论文与长期思考。
 
-The site brings together:
-
-- multimodal affective computing and AI safety research
-- the MMAC organization and current research direction
-- selected personal repositories and small tools
-- publications, awards, and a bilingual research blog
+Aplus 云组会是我参与组织的次要研究品牌与交流空间，MMAC 是其中独立的组织入口。
 
 Live site: <https://aplus-nexus.github.io>
-
-Public links:
 
 - GitHub: <https://github.com/Aplus-Nexus>
 - MMAC Organization: <https://github.com/MMAC>
