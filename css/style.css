@@ -160,6 +160,9 @@ section.pre-animate { opacity: 0; transform: translateY(18px); } section.is-visi
 .project-card { display: flex; flex-direction: column; min-height: 190px; padding: 1.15rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-soft); }
 .project-card:hover { border-color: var(--blue); transform: translateY(-3px); }
 .project-card-featured { background: linear-gradient(145deg, rgba(18,166,215,.15), var(--surface)); }
+.project-card-wefish { background: linear-gradient(145deg, rgba(184,242,124,.18), rgba(242,124,92,.08) 62%, var(--surface)); }
+.project-card-wefish:hover { border-color: #8acb57; }
+.project-mark { width: 42px; height: 42px; margin-bottom: .7rem; border-radius: 12px; box-shadow: 0 8px 18px rgba(16,20,19,.18); }
 .project-meta { color: var(--blue-dark); font: .64rem var(--mono); letter-spacing: .1em; }
 .project-card h3 { margin-top: .8rem; font: 800 1.2rem var(--serif); }
 .project-card p { margin: .5rem 0 1rem; font-size: .8rem; }
